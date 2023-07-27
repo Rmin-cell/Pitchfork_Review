@@ -48,25 +48,3 @@ for item in items:
   print("-.-.-.-.-.-.-.")
   
 
-'''print()
-print(f"Found {len(top_albums)} top albums")
-
-# Print sample album  
-if top_albums:
-  print(top_albums[0])
-
-print()
-
-# Print album details 
-for album in top_albums:
-
-  print(f"{album['title']} by {album['artist']}")
-  
-  print(f"Score: {album['score']}")
-
-  print(f"Genre: {album['genre']} \n")
-  
-for album in top_albums:
-  print(album['title'], 'by', album['artist'])
-  print('Score:', album['score'], '- Genre:', album['genre'])
-  print()'''
