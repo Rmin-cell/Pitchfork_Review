@@ -1,43 +1,153 @@
-# Pitchfork +8.0 Album Reviews
+# Pitchfork High-Scoring Albums Scraper & Web GUI
 
-This is a simple web scraper to extract details about top-rated albums from Pitchfork reviews.
+A modern web application that scrapes Pitchfork's high-scoring albums (8.0+) and displays them in a beautiful, responsive interface.
 
-# Overview
+## ✨ Features
 
-The Pitchfork_last_stage.py script scrapes the Pitchfork website to extract information about highly rated albums that were reviewed in the past week.
+- **Real-time scraping** of Pitchfork's high-scoring albums page
+- **Modern web interface** with responsive design
+- **Album information** including title, artist, genre, and score
+- **"Best New" badges** for specially highlighted albums
+- **Refresh functionality** to get the latest data
+- **Mobile-friendly** responsive design
 
-It retrieves the album title, artist name, and genre for albums with a review score of 8.0 or higher.
+## 🚀 Quick Start
 
-The script prints out the extracted information to the console.
+### Prerequisites
+- Python 3.8+
+- Internet connection
+- Proxy configuration (if needed)
 
+### Installation & Setup
 
-## Usage
+1. **Clone/Navigate to the project directory:**
+   ```bash
+   cd /Users/Armin/Desktop/Pitchfork_Review
+   ```
 
-### To run the scraper
-python Pitchfork_last_stage.py
+2. **Create and activate virtual environment:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-It will scrape the Pitchfork website and output the album data.
+3. **Install dependencies:**
+   ```bash
+   pip install requests beautifulsoup4 flask
+   ```
 
-The script has no external dependencies outside the Python standard library.
-Implementation
+4. **Set up proxy (if needed):**
+   ```bash
+   export https_proxy="http://127.0.0.1:1080"
+   export http_proxy="http://127.0.0.1:1080"
+   ```
 
-### The script uses:
+5. **Run the web application:**
+   ```bash
+   python pitchfork_web_app.py
+   ```
 
-    requests to retrieve the Pitchfork web page HTML
-    BeautifulSoup to parse and extract information from the HTML
-    Selectors to target specific elements like album titles and artists
-    Text processing to clean and format the extracted text
+6. **Open your browser and visit:**
+   ```
+   http://localhost:5000
+   ```
 
-The entry point handles the overall flow:
+## 📱 Usage
 
-    Get Pitchfork HTML
-    Parse with BeautifulSoup
-    Loop through review items
-    Extract album data
-    Print results
+### Web Interface
+- **Main Page**: Displays all high-scoring albums in a beautiful grid layout
+- **Refresh Button**: Click to fetch the latest data from Pitchfork
+- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
 
-### License
+### Command Line (Legacy)
+You can still use the original command-line scraper:
+```bash
+python pitchfork_scraper.py
+```
+
+## 🛠 Technical Details
+
+### What's Changed from Original
+- ✅ **Fixed URL**: Now uses the correct Pitchfork high-scoring albums page
+- ✅ **Improved scraping**: Better extraction of artist and genre information
+- ✅ **Modern web GUI**: Beautiful, responsive Flask web application
+- ✅ **Error handling**: Robust error handling and user feedback
+- ✅ **Proxy support**: Automatic proxy detection and usage
+
+### Architecture
+- **Backend**: Flask web server with scraping functionality
+- **Frontend**: Modern HTML/CSS/JavaScript with responsive design
+- **Data Source**: https://pitchfork.com/reviews/best/high-scoring-albums/
+- **Dependencies**: Minimal - only requests, beautifulsoup4, and flask
+
+## 🎯 API Endpoints
+
+- `GET /` - Main web interface
+- `GET /api/albums` - JSON API returning album data
+- `GET /refresh` - Refresh data and return to main page
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **"No albums found"**
+   - Check your internet connection
+   - Verify proxy settings if using a proxy
+   - Try refreshing the data
+
+2. **"Error loading albums"**
+   - Pitchfork website might be temporarily unavailable
+   - Check if proxy is working correctly
+   - Wait a moment and try again
+
+3. **Flask app won't start**
+   - Make sure virtual environment is activated
+   - Verify all dependencies are installed
+   - Check if port 5000 is available
+
+### Proxy Configuration
+If you're behind a corporate firewall or using a proxy:
+
+```bash
+export https_proxy="http://your-proxy-host:port"
+export http_proxy="http://your-proxy-host:port"
+```
+
+## 📊 Data Structure
+
+Each album contains:
+```json
+{
+    "title": "Album Title",
+    "artist": "Artist Name", 
+    "genre": "Genre",
+    "score": "8.0+",
+    "best_new": true/false
+}
+```
+
+## 🔄 Comparison: Before vs After
+
+### Before (Original)
+- ❌ Used non-existent URL (`/best/high-scoring-albums/`)
+- ❌ Syntax errors and indentation issues
+- ❌ No artist/genre extraction
+- ❌ Command-line only interface
+- ❌ No error handling
+
+### After (Improved)
+- ✅ Correct URL (`/reviews/best/high-scoring-albums/`)
+- ✅ Clean, working code
+- ✅ Extracts title, artist, genre, and identifies "Best New" albums
+- ✅ Beautiful web interface
+- ✅ Comprehensive error handling and user feedback
+- ✅ Mobile-responsive design
+- ✅ Real-time data refresh
+
+## 📝 License
 
 This project is open source and available under the MIT License.
 
-Let me know if you would like me to modify or expand this sample README!
+---
+
+**Enjoy discovering the latest high-scoring albums from Pitchfork! 🎵**

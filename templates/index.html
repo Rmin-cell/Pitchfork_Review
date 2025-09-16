@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitchfork High-Scoring Albums</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .refresh-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .refresh-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin: 40px 0;
+        }
+        
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .album-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .album-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .album-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+        }
+        
+        .album-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .album-artist {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .album-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .album-genre {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .album-score {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .best-new-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .stats {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .albums-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .album-details {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Pitchfork High-Scoring Albums</h1>
+            <p>Discover the latest albums rated 8.0+ by Pitchfork</p>
+        </div>
+        
+        <div class="controls">
+            <button class="refresh-btn" onclick="refreshData()">🔄 Refresh Data</button>
+        </div>
+        
+        <div id="stats" class="stats"></div>
+        <div id="loading" class="loading" style="display: none;">Loading albums...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="albums" class="albums-grid"></div>
+    </div>
+
+    <script>
+        let albums = [];
+        
+        async function loadAlbums() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('error').style.display = 'none';
+                
+                const response = await fetch('/api/albums');
+                if (!response.ok) throw new Error('Failed to fetch albums');
+                
+                albums = await response.json();
+                displayAlbums();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading albums:', error);
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = 'Error loading albums. Please try again.';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+        
+        function displayAlbums() {
+            const albumsContainer = document.getElementById('albums');
+            
+            if (albums.length === 0) {
+                albumsContainer.innerHTML = '<div class="error">No albums found. Please try refreshing.</div>';
+                return;
+            }
+            
+            albumsContainer.innerHTML = albums.map(album => `
+                <div class="album-card">
+                    ${album.best_new ? '<div class="best-new-badge">Best New</div>' : ''}
+                    <div class="album-title">${escapeHtml(album.title)}</div>
+                    <div class="album-artist">${escapeHtml(album.artist)}</div>
+                    <div class="album-details">
+                        <div class="album-genre">${escapeHtml(album.genre)}</div>
+                        <div class="album-score">${album.score}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateStats() {
+            const totalAlbums = albums.length;
+            const bestNewCount = albums.filter(album => album.best_new).length;
+            
+            document.getElementById('stats').innerHTML = `
+                <strong>${totalAlbums}</strong> high-scoring albums found | 
+                <strong>${bestNewCount}</strong> "Best New" selections
+            `;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        async function refreshData() {
+            const button = document.querySelector('.refresh-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ Loading...';
+            button.disabled = true;
+            
+            await loadAlbums();
+            
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+        
+        // Load albums when page loads
+        document.addEventListener('DOMContentLoaded', loadAlbums);
+    </script>
+</body>
+</html>
