@@ -1,0 +1,39 @@
+{
+  "name": "pitchfork-albums-frontend",
+  "version": "1.0.0",
+  "description": "React frontend for Pitchfork High-Scoring Albums",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "NODE_OPTIONS='--no-deprecation' react-scripts start",
+    "build": "NODE_OPTIONS='--no-deprecation' react-scripts build",
+    "test": "NODE_OPTIONS='--no-deprecation' react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "NODE_OPTIONS='--no-deprecation' react-scripts start"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "antd": "^5.21.0",
+    "axios": "^1.7.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "react-scripts": "5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:5000"
+}
