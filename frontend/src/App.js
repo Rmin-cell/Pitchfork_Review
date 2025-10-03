@@ -16,13 +16,18 @@ const AppContainer = styled(Layout)`
 `;
 
 const MainContent = styled(Content)`
-  padding: 32px 24px;
-  max-width: 1400px;
+  padding: 80px 40px;
+  max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+  background: transparent;
+  
+  @media (max-width: 1200px) {
+    padding: 60px 32px;
+  }
   
   @media (max-width: 768px) {
-    padding: 20px 16px;
+    padding: 40px 24px;
   }
 `;
 
@@ -121,7 +126,7 @@ const App = () => {
         disabled={loading}
         tooltip="Refresh Albums"
         style={{
-          background: 'linear-gradient(135deg, #00d4aa, #55efc4)',
+          background: 'linear-gradient(135deg, #E2CBDA, #DED5E0)',
           border: 'none',
         }}
       />

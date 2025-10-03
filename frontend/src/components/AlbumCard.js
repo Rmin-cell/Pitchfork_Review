@@ -7,15 +7,42 @@ const { Title, Text } = Typography;
 
 const StyledCard = styled(Card)`
   height: 100%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 212, 170, 0.2);
-  border-radius: 16px;
+  border: 1px solid rgba(226, 203, 218, 0.3);
+  border-radius: 20px;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(226, 203, 218, 0.15);
   cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(226, 203, 218, 0.25);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(226, 203, 218, 0.5);
+  }
+  
+  .ant-card-body {
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const AlbumArtwork = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #E2CBDA, #DED5E0);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 20px;
   
   &::before {
     content: '';
@@ -23,140 +50,152 @@ const StyledCard = styled(Card)`
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #00d4aa, #55efc4, #00d4aa);
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(233, 183, 206, 0.3), rgba(211, 243, 241, 0.3));
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
   
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(0, 212, 170, 0.4);
-  }
-  
-  .ant-card-body {
-    padding: 20px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  ${StyledCard}:hover &::before {
+    opacity: 1;
   }
 `;
 
+const ScoreDisplay = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: ${props => {
+    if (props.score >= 9.0) return '#D3F3F1';
+    if (props.score >= 8.5) return '#E9B7CE';
+    return '#D7E9EB';
+  }};
+  color: #2C3E50;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(226, 203, 218, 0.2);
+  transition: all 0.3s ease;
+  
+  ${StyledCard}:hover & {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(226, 203, 218, 0.3);
+  }
+`;
+
+const BestNewBadge = styled.div`
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(211, 243, 241, 0.9);
+  color: #2C3E50;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(211, 243, 241, 0.5);
+`;
+
 const CardContent = styled.div`
-  position: relative;
-  height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
 `;
 
-const BestNewBadge = styled(Badge)`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 1;
-`;
-
 const AlbumTitle = styled(Title)`
   margin: 0 0 8px 0 !important;
-  font-size: 1.3rem !important;
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.5rem !important;
   font-weight: 600 !important;
-  color: #333 !important;
+  color: #2C3E50 !important;
   line-height: 1.3 !important;
-  padding-right: ${props => props.hasBadge ? '60px' : '0'};
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const AlbumArtist = styled(Text)`
-  font-size: 1.1rem;
-  color: #666;
+  font-size: 1rem;
+  color: #5D6D7E;
   margin-bottom: 16px;
   display: block;
+  font-weight: 500;
 `;
 
 const AlbumDetails = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex-wrap: wrap;
   margin-top: auto;
 `;
 
 const GenreTag = styled(Tag)`
-  border-radius: 16px;
+  border-radius: 20px;
   font-weight: 500;
+  font-size: 0.8rem;
+  padding: 6px 16px;
+  margin: 0;
+  background: rgba(226, 203, 218, 0.3);
+  color: #2C3E50;
+  border: 1px solid rgba(226, 203, 218, 0.5);
   transition: all 0.2s ease;
   
   &:hover {
     transform: scale(1.05);
+    background: rgba(226, 203, 218, 0.4);
   }
 `;
 
-const ScoreTag = styled(Tag)`
-  background: linear-gradient(135deg, #e91e63, #f06292);
-  border: none;
-  color: white;
-  font-weight: 600;
-  border-radius: 16px;
+const ScoreInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #85929E;
+  font-size: 0.8rem;
+  font-weight: 500;
 `;
 
-const getGenreColor = (genre) => {
-  const colorMap = {
-    'Rock': { color: '#c62828', background: '#ffebee' },
-    'Pop': { color: '#c2185b', background: '#fce4ec' },
-    'Electronic': { color: '#1976d2', background: '#e3f2fd' },
-    'Folk': { color: '#2e7d32', background: '#e8f5e8' },
-    'Country': { color: '#f57c00', background: '#fff3e0' },
-    'Metal': { color: '#d32f2f', background: '#ffebee' },
-    'Rap': { color: '#7b1fa2', background: '#f3e5f5' },
-    'Experimental': { color: '#00695c', background: '#e0f2f1' },
-    'R&B': { color: '#c2185b', background: '#fce4ec' },
-  };
-  
-  return colorMap[genre] || { color: '#666', background: '#f5f5f5' };
-};
-
 const AlbumCard = ({ album }) => {
-  const genreColors = getGenreColor(album.genre);
   const hasBadge = album.best_new;
-
+  const score = parseFloat(album.score.replace('+', '')) || 8.0;
+  
   return (
     <StyledCard>
-      <CardContent>
+      <AlbumArtwork>
+        <CustomerServiceOutlined style={{ fontSize: '3rem', color: '#4D4D4D' }} />
+        <ScoreDisplay score={score}>
+          {album.score}
+        </ScoreDisplay>
         {hasBadge && (
-          <BestNewBadge
-            count="Best New"
-            style={{
-              backgroundColor: '#4caf50',
-              color: 'white',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              padding: '4px 8px',
-              borderRadius: '12px',
-            }}
-          />
+          <BestNewBadge>
+            Best New
+          </BestNewBadge>
         )}
-        
-        <AlbumTitle level={4} hasBadge={hasBadge}>
-          <CustomerServiceOutlined style={{ marginRight: 8, color: '#00d4aa' }} />
+      </AlbumArtwork>
+      
+      <CardContent>
+        <AlbumTitle level={4}>
           {album.title}
         </AlbumTitle>
         
         <AlbumArtist>
-          <StarOutlined style={{ marginRight: 8, color: '#fdcb6e' }} />
           {album.artist}
         </AlbumArtist>
         
         <AlbumDetails>
-          <GenreTag
-            color={genreColors.color}
-            style={{
-              backgroundColor: genreColors.background,
-              borderColor: genreColors.color,
-            }}
-          >
+          <GenreTag>
             {album.genre}
           </GenreTag>
-          <ScoreTag>{album.score}</ScoreTag>
+          <ScoreInfo>
+            <StarOutlined style={{ color: '#E2CBDA' }} />
+            Pitchfork
+          </ScoreInfo>
         </AlbumDetails>
       </CardContent>
     </StyledCard>
@@ -164,4 +203,3 @@ const AlbumCard = ({ album }) => {
 };
 
 export default AlbumCard;
-
