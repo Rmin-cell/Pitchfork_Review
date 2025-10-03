@@ -1,9 +1,11 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, jsonify
+from flask_cors import CORS
 import requests
 from bs4 import BeautifulSoup
 import os
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 
 def scrape_pitchfork():
@@ -155,24 +157,11 @@ def scrape_pitchfork():
         return []
 
 
-@app.route("/")
-def index():
-    """Main page displaying all albums"""
-    return render_template("index.html")
-
-
 @app.route("/api/albums")
 def get_albums():
     """API endpoint to get album data"""
     albums = scrape_pitchfork()
     return jsonify(albums)
-
-
-@app.route("/refresh")
-def refresh():
-    """Refresh the data"""
-    albums = scrape_pitchfork()
-    return render_template("index.html", albums=albums, refreshed=True)
 
 
 if __name__ == "__main__":
