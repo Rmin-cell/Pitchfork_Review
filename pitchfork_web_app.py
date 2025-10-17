@@ -34,11 +34,37 @@ def scrape_pitchfork():
             title_elem = item.select_one("h3")
             title = title_elem.get_text(strip=True) if title_elem else "Unknown Title"
 
+            # Extract review URL
+            review_url = ""
+            album_link = item.select_one('a[href*="/reviews/albums/"]')
+            if album_link:
+                href = album_link.get("href", "")
+                review_url = f"https://pitchfork.com{href}" if href else ""
+
+            # Extract album artwork/image
+            image_url = ""
+            img_elem = item.select_one("img")
+            if img_elem:
+                # Try srcset first (for responsive images), then src
+                srcset = img_elem.get("srcset", "")
+                if srcset:
+                    # Parse srcset and get the highest resolution image
+                    # Format: "url 1x, url 2x" or "url 300w, url 600w"
+                    srcset_parts = srcset.split(",")
+                    if srcset_parts:
+                        # Get the last (highest res) image
+                        image_url = srcset_parts[-1].strip().split(" ")[0]
+                else:
+                    image_url = img_elem.get("src", "")
+
+                # Handle relative URLs
+                if image_url and not image_url.startswith("http"):
+                    image_url = f"https://pitchfork.com{image_url}"
+
             # Extract artist - multiple strategies
             artist = "Unknown Artist"
 
             # Strategy 1: Extract from URL slug (most reliable)
-            album_link = item.select_one('a[href*="/reviews/albums/"]')
             if album_link:
                 href = album_link.get("href", "")
                 # URL format: /reviews/albums/artist-album-title/
@@ -111,6 +137,14 @@ def scrape_pitchfork():
                         # Clean up common issues
                         artist = artist.replace("  ", " ").strip()
 
+            # Extract score
+            score = "8.0+"
+            score_elem = item.select_one(".score")
+            if score_elem:
+                score_text = score_elem.get_text(strip=True)
+                if score_text:
+                    score = score_text
+
             # Extract genre from concatenated text
             genre = "Unknown Genre"
             all_text = item.get_text().strip()
@@ -145,8 +179,10 @@ def scrape_pitchfork():
                     "title": title,
                     "artist": artist,
                     "genre": genre,
-                    "score": "8.0+",
+                    "score": score,
                     "best_new": best_new,
+                    "image_url": image_url,
+                    "review_url": review_url,
                 }
             )
 
