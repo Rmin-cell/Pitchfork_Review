@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import AlbumCard from './AlbumCard';
 import styled from 'styled-components';
+import { AlbumGridProps } from '../types';
 
 const GridContainer = styled.div`
   .fade-in {
@@ -20,10 +21,10 @@ const GridContainer = styled.div`
   }
 `;
 
-const AlbumGrid = ({ albums }) => {
+const AlbumGrid: React.FC<AlbumGridProps> = ({ albums, onAlbumClick }) => {
   return (
     <GridContainer>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[24, 24]}>
         {albums.map((album, index) => (
           <Col 
             key={`${album.title}-${album.artist}-${index}`}
@@ -32,9 +33,9 @@ const AlbumGrid = ({ albums }) => {
             md={8} 
             lg={6}
             className="fade-in"
-            style={{ animationDelay: `${index * 0.1}s` }}
+            style={{ animationDelay: `${index * 0.05}s` }}
           >
-            <AlbumCard album={album} />
+            <AlbumCard album={album} onClick={onAlbumClick} />
           </Col>
         ))}
       </Row>

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Layout, Typography, Button, Space } from 'antd';
+import React, { useMemo } from 'react';
+import { Typography, Button } from 'antd';
 import { ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { HeaderProps } from '../types';
 
-const { Header: AntHeader } = Layout;
 const { Title, Paragraph } = Typography;
 
 const HeroSection = styled.div`
@@ -105,6 +105,7 @@ const RefreshButton = styled(Button)`
     background: linear-gradient(135deg, #E5C1D4, #E2CBDA);
     transform: translateY(-2px);
     box-shadow: 0 12px 32px rgba(226, 203, 218, 0.4);
+    color: #2C3E50;
   }
   
   &:disabled {
@@ -137,11 +138,13 @@ const ScrollIndicator = styled.div`
   }
 `;
 
-const Header = ({ onRefresh, loading, albums }) => {
-  const stats = {
-    total: albums?.length || 0,
-    bestNew: albums?.filter(album => album.best_new).length || 0,
-  };
+const Header: React.FC<HeaderProps> = ({ onRefresh, loading, albums = [] }) => {
+  const stats = useMemo(() => {
+    return {
+      total: albums?.length || 0,
+      bestNew: albums?.filter(album => album.best_new).length || 0,
+    };
+  }, [albums]);
 
   return (
     <HeroSection>
@@ -191,3 +194,4 @@ const Header = ({ onRefresh, loading, albums }) => {
 };
 
 export default Header;
+

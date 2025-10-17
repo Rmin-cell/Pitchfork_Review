@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
-import { Card, Statistic, Row, Col, Typography } from 'antd';
+import { Card, Statistic, Row, Col } from 'antd';
 import { TrophyOutlined, StarOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-
-const { Title } = Typography;
+import { StatsProps } from '../types';
 
 const StatsContainer = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 `;
 
 const StatCard = styled(Card)`
@@ -25,16 +24,24 @@ const StatCard = styled(Card)`
   }
 `;
 
-const Stats = ({ albums, loading }) => {
+const Stats: React.FC<StatsProps> = ({ albums, loading }) => {
   const stats = useMemo(() => {
     if (!albums || albums.length === 0) {
-      return { total: 0, bestNew: 0 };
+      return { total: 0, bestNew: 0, averageScore: 0 };
     }
     
-    return {
-      total: albums.length,
-      bestNew: albums.filter(album => album.best_new).length,
-    };
+    const total = albums.length;
+    const bestNew = albums.filter(album => album.best_new).length;
+    
+    // Calculate average score
+    const scores = albums
+      .map(album => parseFloat(album.score.replace('+', '')))
+      .filter(score => !isNaN(score));
+    const averageScore = scores.length > 0
+      ? (scores.reduce((sum, score) => sum + score, 0) / scores.length).toFixed(1)
+      : 0;
+    
+    return { total, bestNew, averageScore };
   }, [albums]);
 
   if (loading) {
@@ -43,8 +50,8 @@ const Stats = ({ albums, loading }) => {
 
   return (
     <StatsContainer>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12}>
+      <Row gutter={[24, 24]}>
+        <Col xs={24} sm={12} lg={8}>
           <StatCard>
             <Statistic
               title="High-Scoring Albums"
@@ -54,12 +61,22 @@ const Stats = ({ albums, loading }) => {
             />
           </StatCard>
         </Col>
-        <Col xs={24} sm={12}>
+        <Col xs={24} sm={12} lg={8}>
           <StatCard>
             <Statistic
               title="Best New Selections"
               value={stats.bestNew}
               prefix={<TrophyOutlined style={{ color: '#D3F3F1' }} />}
+              valueStyle={{ color: '#2C3E50', fontSize: '2rem', fontWeight: 700 }}
+            />
+          </StatCard>
+        </Col>
+        <Col xs={24} sm={24} lg={8}>
+          <StatCard>
+            <Statistic
+              title="Average Score"
+              value={stats.averageScore}
+              prefix={<StarOutlined style={{ color: '#E9B7CE' }} />}
               valueStyle={{ color: '#2C3E50', fontSize: '2rem', fontWeight: 700 }}
             />
           </StatCard>
