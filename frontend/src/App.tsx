@@ -5,11 +5,16 @@ import styled from 'styled-components';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import Stats from './components/Stats';
-import AlbumGrid from './components/AlbumGrid';
 import SearchBar from './components/SearchBar';
 import AlbumDetailModal from './components/AlbumDetailModal';
 import AlbumSkeleton from './components/AlbumSkeleton';
 import DarkModeToggle from './components/DarkModeToggle';
+import FeaturedAlbumHero from './components/FeaturedAlbumHero';
+import GenreSections from './components/GenreSections';
+import MagazineListView from './components/MagazineListView';
+import AlbumListView from './components/AlbumListView';
+import ViewToggle from './components/ViewToggle';
+import SurpriseMeButton from './components/SurpriseMeButton';
 import { fetchAlbums } from './services/api';
 import { Album, AlbumFilters } from './types';
 
@@ -61,6 +66,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<'list' | 'genre' | 'magazine'>('list');
   
   const [filters, setFilters] = useState<AlbumFilters>({
     searchQuery: '',
@@ -109,6 +115,20 @@ const App: React.FC = () => {
   const handleFiltersChange = useCallback((newFilters: AlbumFilters) => {
     setFilters(newFilters);
   }, []);
+  
+  const handleSurpriseMe = useCallback(() => {
+    if (albums.length === 0) return;
+    
+    const randomIndex = Math.floor(Math.random() * albums.length);
+    const randomAlbum = albums[randomIndex];
+    setSelectedAlbum(randomAlbum);
+    setModalVisible(true);
+    
+    message.success({
+      content: `🎲 Surprise! Discover "${randomAlbum.title}"`,
+      duration: 3,
+    });
+  }, [albums]);
 
   // Filter and sort albums based on current filters
   const filteredAndSortedAlbums = useMemo(() => {
@@ -197,12 +217,21 @@ const App: React.FC = () => {
       );
     }
 
+    // Show appropriate view based on mode
+    if (viewMode === 'genre') {
+      return <GenreSections albums={filteredAndSortedAlbums} onAlbumClick={handleAlbumClick} />;
+    }
+    
+    if (viewMode === 'magazine') {
+      return <MagazineListView albums={filteredAndSortedAlbums} onAlbumClick={handleAlbumClick} />;
+    }
+
     return (
       <>
         <ResultsCount>
           Showing {filteredAndSortedAlbums.length} of {albums.length} albums
         </ResultsCount>
-        <AlbumGrid albums={filteredAndSortedAlbums} onAlbumClick={handleAlbumClick} />
+        <AlbumListView albums={filteredAndSortedAlbums} onAlbumClick={handleAlbumClick} />
       </>
     );
   };
@@ -216,26 +245,45 @@ const App: React.FC = () => {
           <Stats albums={albums} loading={loading} />
           
           {!loading && albums.length > 0 && (
-            <SearchBar 
-              albums={albums} 
-              filters={filters} 
-              onFiltersChange={handleFiltersChange} 
-            />
+            <>
+              <FeaturedAlbumHero 
+                albums={albums} 
+                onViewDetails={handleAlbumClick} 
+              />
+              
+              <SearchBar 
+                albums={albums} 
+                filters={filters} 
+                onFiltersChange={handleFiltersChange} 
+              />
+              
+              <ViewToggle 
+                value={viewMode} 
+                onChange={setViewMode} 
+              />
+            </>
           )}
           
           {renderContent()}
         </MainContent>
         
-        {!loading && (
-          <FloatButton
-            icon={<ReloadOutlined />}
-            onClick={handleRefresh}
-            tooltip="Refresh Albums"
-            style={{
-              background: 'linear-gradient(135deg, #E2CBDA, #DED5E0)',
-              border: 'none',
-            }}
-          />
+        {!loading && albums.length > 0 && (
+          <>
+            <FloatButton
+              icon={<ReloadOutlined />}
+              onClick={handleRefresh}
+              tooltip="Refresh Albums"
+              style={{
+                background: 'linear-gradient(135deg, #E2CBDA, #DED5E0)',
+                border: 'none',
+              }}
+            />
+            
+            <SurpriseMeButton 
+              onClick={handleSurpriseMe}
+              disabled={loading || albums.length === 0}
+            />
+          </>
         )}
         
         <AlbumDetailModal
