@@ -1,4 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
+/* Ultra-Minimal Design System - Portfolio Inspired */
+/* Deep dark, sophisticated, clean typography */
+
+:root {
+  /* Light Theme */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F8F8;
+  --bg-gradient: linear-gradient(180deg, #FFFFFF 0%, #F8F8F8 100%);
+  
+  --text-primary: #0A0A0A;
+  --text-secondary: #6B6B6B;
+  --text-tertiary: #A0A0A0;
+  
+  --primary: #0A0A0A;
+  --primary-hover: #2A2A2A;
+  --primary-light: #4A4A4A;
+  
+  --card-bg: #FFFFFF;
+  --card-bg-hover: #F8F8F8;
+  --card-border: #E8E8E8;
+  --card-border-hover: #D0D0D0;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-neon: 0 2px 6px rgba(0, 0, 0, 0.04);
+  
+  --gradient-hero: #0A0A0A;
+  --gradient-accent: #2A2A2A;
+  --gradient-gold: #4A4A4A;
+  --gradient-neon: #6B6B6B;
+}
+
+/* Dark Theme - Portfolio Style */
+body.dark-mode {
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #121212;
+  --bg-gradient: linear-gradient(180deg, #0A0A0A 0%, #121212 100%);
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --text-tertiary: #6B6B6B;
+  
+  --primary: #FFFFFF;
+  --primary-hover: #E8E8E8;
+  --primary-light: #D0D0D0;
+  
+  --card-bg: #141414;
+  --card-bg-hover: #1A1A1A;
+  --card-border: #242424;
+  --card-border-hover: #303030;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.7);
+  --shadow-neon: 0 2px 6px rgba(0, 0, 0, 0.5);
+  
+  --gradient-hero: #FFFFFF;
+  --gradient-accent: #E8E8E8;
+  --gradient-gold: #D0D0D0;
+  --gradient-neon: #A0A0A0;
+}
 
 * {
   margin: 0;
@@ -6,234 +69,192 @@
   box-sizing: border-box;
 }
 
-/* CSS Variables for Light Theme - Bold & High-Contrast */
-:root {
-  --bg-gradient: linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 50%, #F0F2F5 100%);
-  --primary: #FF0080;
-  --primary-hover: #D6006B;
-  --primary-light: #FF4DA6;
-  --text-primary: #0A0A0A;
-  --text-secondary: #2C2C2C;
-  --text-tertiary: #5A5A5A;
-  --card-bg: rgba(255, 255, 255, 0.98);
-  --card-bg-hover: rgba(255, 255, 255, 1);
-  --card-border: rgba(255, 0, 128, 0.15);
-  --card-border-hover: rgba(255, 0, 128, 0.4);
-  --shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.08);
-  --shadow-sm: 0 4px 12px rgba(255, 0, 128, 0.15);
-  --shadow-md: 0 8px 24px rgba(255, 0, 128, 0.2);
-  --shadow-lg: 0 16px 48px rgba(255, 0, 128, 0.25);
-  --shadow-xl: 0 24px 64px rgba(255, 0, 128, 0.3);
-  --shadow-neon: 0 0 20px rgba(0, 245, 255, 0.5);
-  --score-perfect: #39FF14;
-  --score-excellent: #00F5FF;
-  --score-great: #FFD93D;
-  --border-light: #E8E8E8;
-  --border-medium: #D0D0D0;
-  --border-dark: #A8A8A8;
-  --gradient-hero: linear-gradient(135deg, #FF0080 0%, #FF8C00 50%, #40E0D0 100%);
-  --gradient-accent: linear-gradient(135deg, #00F5FF 0%, #FF10F0 100%);
-  --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
-  --gradient-neon: linear-gradient(135deg, #00F5FF 0%, #00CED1 100%);
-}
-
-/* CSS Variables for Dark Theme - Neon & High-Contrast */
-body.dark-mode {
-  --bg-gradient: linear-gradient(135deg, #000000 0%, #0A0A0F 50%, #121218 100%);
-  --primary: #FF0080;
-  --primary-hover: #FF4DA6;
-  --primary-light: #FF69B4;
-  --text-primary: #FFFFFF;
-  --text-secondary: #E8E8E8;
-  --text-tertiary: #B0B0B0;
-  --card-bg: rgba(18, 18, 24, 0.85);
-  --card-bg-hover: rgba(18, 18, 24, 0.98);
-  --card-border: rgba(255, 0, 128, 0.3);
-  --card-border-hover: rgba(255, 0, 128, 0.6);
-  --shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.5);
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.6);
-  --shadow-md: 0 8px 24px rgba(255, 0, 128, 0.3);
-  --shadow-lg: 0 16px 48px rgba(255, 0, 128, 0.4);
-  --shadow-xl: 0 24px 64px rgba(255, 0, 128, 0.5);
-  --shadow-neon: 0 0 30px rgba(0, 245, 255, 0.6);
-  --score-perfect: #39FF14;
-  --score-excellent: #00F5FF;
-  --score-great: #FFD93D;
-  --border-light: rgba(255, 255, 255, 0.1);
-  --border-medium: rgba(255, 255, 255, 0.15);
-  --border-dark: rgba(255, 255, 255, 0.2);
-  --gradient-hero: linear-gradient(135deg, #FF0080 0%, #FF8C00 50%, #40E0D0 100%);
-  --gradient-accent: linear-gradient(135deg, #00F5FF 0%, #FF10F0 100%);
-  --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
-  --gradient-neon: linear-gradient(135deg, #00F5FF 0%, #00CED1 100%);
-}
-
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  background: var(--bg-gradient);
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-primary);
   min-height: 100vh;
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
+  letter-spacing: -0.01em;
 }
 
 #root {
   min-height: 100vh;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-hover);
-  box-shadow: 0 0 10px var(--primary);
-}
-
-body.dark-mode ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode ::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  box-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
-}
-
-/* Global animations */
+/* Ultra-Minimal Animations */
 @keyframes fadeIn {
-  from {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
     opacity: 0;
     transform: translateY(20px);
   }
-  to {
+  to { 
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+/* Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
+::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 3px;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
 }
 
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
+/* Selection */
+::selection {
+  background: var(--text-primary);
+  color: var(--bg-primary);
 }
 
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(255, 0, 128, 0.9);
-  }
+::-moz-selection {
+  background: var(--text-primary);
+  color: var(--bg-primary);
 }
 
-@keyframes neonGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(0, 245, 255, 0.4),
-                0 0 20px rgba(0, 245, 255, 0.3),
-                0 0 30px rgba(0, 245, 255, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(0, 245, 255, 0.6),
-                0 0 30px rgba(0, 245, 255, 0.5),
-                0 0 40px rgba(0, 245, 255, 0.4);
-  }
+/* Portfolio-Style Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
-@keyframes neonPulse {
-  0%, 100% {
-    text-shadow: 0 0 4px rgba(255, 0, 128, 0.5),
-                 0 0 8px rgba(255, 0, 128, 0.3);
-  }
-  50% {
-    text-shadow: 0 0 8px rgba(255, 0, 128, 0.8),
-                 0 0 16px rgba(255, 0, 128, 0.5),
-                 0 0 24px rgba(255, 0, 128, 0.3);
-  }
+h1 {
+  font-size: 4rem;
+  font-weight: 300;
 }
 
-.fade-in {
-  animation: fadeIn 0.6s ease-out;
+h2 {
+  font-size: 3rem;
+  font-weight: 300;
 }
 
-.slide-in {
-  animation: slideIn 0.4s ease-out;
+h3 {
+  font-size: 2rem;
+  font-weight: 400;
 }
 
-.pulse {
-  animation: pulse 2s ease-in-out infinite;
+p {
+  color: var(--text-secondary);
+  font-weight: 300;
+  line-height: 1.8;
 }
 
-.float {
-  animation: float 3s ease-in-out infinite;
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
-/* Smooth transitions for all interactive elements */
-button, a, .clickable {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+a:hover {
+  opacity: 0.7;
 }
 
-/* Focus styles for accessibility */
-*:focus-visible {
-  outline: 2px solid var(--primary);
+/* Minimal Focus States */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid var(--text-primary);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
+/* Ant Design Overrides - Ultra Minimal */
+.ant-btn {
+  border-radius: 2px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.ant-input,
+.ant-select-selector {
+  border-radius: 2px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 300 !important;
+}
+
+.ant-card {
+  border-radius: 0px;
+  transition: all 0.2s ease;
+}
+
+.ant-modal-content {
+  border-radius: 0px;
+  background: var(--card-bg) !important;
+}
+
+.ant-modal-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--card-border) !important;
+}
+
+.ant-modal-title {
+  color: var(--text-primary) !important;
+  font-weight: 300 !important;
+  font-size: 1.5rem !important;
+}
+
+.ant-modal-body {
+  color: var(--text-secondary) !important;
+}
+
+.ant-switch {
+  background: var(--card-border) !important;
+}
+
+.ant-switch-checked {
+  background: var(--text-primary) !important;
+}
+
+.ant-spin-dot-item {
+  background-color: var(--text-primary) !important;
+}
+
+/* Float Button Minimal Style */
+.ant-float-btn {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+}
+
+.ant-float-btn:hover {
+  background: var(--card-bg-hover) !important;
+  border-color: var(--text-primary) !important;
+}
+
+.ant-float-btn-icon {
+  color: var(--text-primary) !important;
+}
+
+/* Number Indicators (like the reference design) */
+.section-number {
+  font-size: 5rem;
+  font-weight: 100;
+  color: var(--text-tertiary);
+  opacity: 0.3;
+  line-height: 1;
+}

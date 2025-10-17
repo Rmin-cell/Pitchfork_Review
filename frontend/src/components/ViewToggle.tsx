@@ -11,37 +11,37 @@ interface ViewToggleProps {
 const ToggleContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin: 24px 0;
+  margin: 40px 0 60px;
 `;
 
 const StyledSegmented = styled(Segmented)`
-  background: var(--card-bg);
-  backdrop-filter: blur(20px);
+  background: transparent;
   border: 1px solid var(--card-border);
-  border-radius: 50px;
+  border-radius: 0px;
   padding: 4px;
-  box-shadow: var(--shadow-sm);
   
   .ant-segmented-item {
-    border-radius: 50px;
+    border-radius: 0px;
     padding: 8px 24px;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 300;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
     
     &:hover {
-      color: var(--primary);
+      color: var(--text-primary);
     }
   }
   
   .ant-segmented-item-selected {
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: var(--text-primary);
+    color: var(--bg-primary);
   }
   
   .ant-segmented-thumb {
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-    border-radius: 50px;
+    background: var(--text-primary);
+    border-radius: 0px;
   }
 `;
 
@@ -53,17 +53,17 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => {
         onChange={(val) => onChange(val as 'list' | 'genre' | 'magazine')}
         options={[
           {
-            label: 'List View',
+            label: 'list',
             value: 'list',
             icon: <UnorderedListOutlined />,
           },
           {
-            label: 'By Genre',
+            label: 'genre',
             value: 'genre',
             icon: <AppstoreOutlined />,
           },
           {
-            label: 'Magazine',
+            label: 'magazine',
             value: 'magazine',
             icon: <ReadOutlined />,
           },
@@ -74,4 +74,3 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => {
 };
 
 export default ViewToggle;
-

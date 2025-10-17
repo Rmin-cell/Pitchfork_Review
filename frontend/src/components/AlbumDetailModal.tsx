@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import { Modal, Typography, Tag, Button, Space, Divider } from 'antd';
+import React from 'react';
+import { Modal, Typography, Button } from 'antd';
 import { 
-  CloseOutlined, 
-  StarOutlined, 
-  TrophyOutlined, 
-  LinkOutlined,
-  CustomerServiceOutlined 
+  StarFilled, 
+  LinkOutlined 
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { AlbumDetailModalProps } from '../types';
@@ -14,15 +11,22 @@ const { Title, Text } = Typography;
 
 const StyledModal = styled(Modal)`
   .ant-modal-content {
-    border-radius: 24px;
+    border-radius: 0px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
+    background: var(--bg-primary);
+    border: 1px solid var(--card-border);
   }
   
   .ant-modal-header {
     background: transparent;
-    border-bottom: 1px solid rgba(226, 203, 218, 0.2);
+    border-bottom: 1px solid var(--card-border);
+    padding: 24px 32px;
+  }
+  
+  .ant-modal-title {
+    color: var(--text-primary);
+    font-weight: 300;
+    font-size: 1.5rem;
   }
   
   .ant-modal-body {
@@ -30,23 +34,32 @@ const StyledModal = styled(Modal)`
   }
   
   .ant-modal-footer {
-    border-top: 1px solid rgba(226, 203, 218, 0.2);
+    border-top: 1px solid var(--card-border);
     background: transparent;
+    padding: 16px 32px;
+  }
+  
+  .ant-modal-close {
+    color: var(--text-tertiary);
+    
+    &:hover {
+      color: var(--text-primary);
+    }
   }
 `;
 
 const AlbumCover = styled.div`
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   aspect-ratio: 1;
-  margin: 0 auto 24px;
-  border-radius: 16px;
+  margin: 0 auto 32px;
+  border-radius: 0px;
   overflow: hidden;
-  background: linear-gradient(135deg, #E2CBDA, #DED5E0);
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 32px rgba(226, 203, 218, 0.3);
+  border: 1px solid var(--card-border);
   
   img {
     width: 100%;
@@ -55,179 +68,159 @@ const AlbumCover = styled.div`
   }
 `;
 
+const PlaceholderIcon = styled.div`
+  font-size: 5rem;
+  opacity: 0.2;
+`;
+
 const AlbumTitle = styled(Title)`
-  margin: 0 0 8px 0 !important;
-  font-family: 'Playfair Display', serif !important;
+  margin: 0 0 12px 0 !important;
   font-size: 2rem !important;
-  font-weight: 700 !important;
-  color: #2C3E50 !important;
+  font-weight: 300 !important;
+  color: var(--text-primary) !important;
   text-align: center;
+  letter-spacing: -0.02em;
 `;
 
 const AlbumArtist = styled(Text)`
   display: block;
-  font-size: 1.25rem;
-  color: #5D6D7E;
-  font-weight: 500;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  font-weight: 300;
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 `;
 
 const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--card-border);
+  
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const InfoLabel = styled(Text)`
-  font-weight: 600;
-  color: #2C3E50;
-  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
 `;
 
-const ScoreDisplay = styled.div<{ score: number }>`
+const InfoValue = styled(Text)`
+  font-weight: 300;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+`;
+
+const ScoreDisplay = styled.div`
   display: inline-block;
-  background: ${props => {
-    if (props.score >= 9.0) return '#D3F3F1';
-    if (props.score >= 8.5) return '#E9B7CE';
-    return '#D7E9EB';
-  }};
-  color: #2C3E50;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 1.5rem;
-  box-shadow: 0 4px 12px rgba(226, 203, 218, 0.2);
+  background: transparent;
+  border: 1px solid var(--text-primary);
+  color: var(--text-primary);
+  padding: 4px 16px;
+  border-radius: 0px;
+  font-weight: 300;
+  font-size: 1.125rem;
 `;
 
-const GenreTag = styled(Tag)`
-  border-radius: 16px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  padding: 8px 16px;
-  background: rgba(226, 203, 218, 0.3);
-  color: #2C3E50;
-  border: 1px solid rgba(226, 203, 218, 0.5);
-`;
-
-const BestNewBadge = styled.div`
+const BestNewTag = styled.span`
+  border-radius: 0px;
+  padding: 4px 12px;
+  font-size: 0.875rem;
+  font-weight: 300;
+  border: 1px solid var(--text-primary);
+  background: transparent;
+  color: var(--text-primary);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(211, 243, 241, 0.9);
-  color: #2C3E50;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: 1px solid rgba(211, 243, 241, 0.5);
+  gap: 6px;
+  
+  .anticon {
+    font-size: 0.75rem;
+  }
 `;
 
 const ViewReviewButton = styled(Button)`
-  background: linear-gradient(135deg, #E2CBDA, #DED5E0);
-  border: none;
-  color: #2C3E50;
-  height: 48px;
-  padding: 0 32px;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 24px;
-  box-shadow: 0 4px 16px rgba(226, 203, 218, 0.3);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: linear-gradient(135deg, #E5C1D4, #E2CBDA);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(226, 203, 218, 0.4);
-    color: #2C3E50;
+  && {
+    border-radius: 0px;
+    height: 48px;
+    font-weight: 300;
+    border: 1px solid var(--text-primary);
+    background: transparent;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    
+    &:hover {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
   }
 `;
 
 const AlbumDetailModal: React.FC<AlbumDetailModalProps> = ({ album, visible, onClose }) => {
-  const [imageError, setImageError] = useState(false);
-  
   if (!album) return null;
-  
-  const scoreValue = parseFloat(album.score.replace('+', '')) || 8.0;
-  
-  const handleViewReview = () => {
-    if (album.review_url) {
-      window.open(album.review_url, '_blank', 'noopener,noreferrer');
-    }
-  };
-  
+
   return (
     <StyledModal
+      title="album details"
       open={visible}
       onCancel={onClose}
       footer={null}
-      width={600}
-      closeIcon={<CloseOutlined />}
+      width={560}
       centered
     >
       <AlbumCover>
-        {album.image_url && !imageError ? (
-          <img 
-            src={album.image_url} 
-            alt={`${album.title} by ${album.artist}`}
-            onError={() => setImageError(true)}
-          />
+        {album.image_url ? (
+          <img src={album.image_url} alt={album.title} />
         ) : (
-          <CustomerServiceOutlined style={{ fontSize: '4rem', color: '#4D4D4D' }} />
+          <PlaceholderIcon>♪</PlaceholderIcon>
         )}
       </AlbumCover>
       
-      <AlbumTitle level={2}>
-        {album.title}
-      </AlbumTitle>
+      <AlbumTitle level={3}>{album.title}</AlbumTitle>
+      <AlbumArtist>{album.artist}</AlbumArtist>
       
-      <AlbumArtist>
-        {album.artist}
-      </AlbumArtist>
-      
-      <Divider style={{ margin: '24px 0' }} />
-      
-      <Space direction="vertical" style={{ width: '100%' }} size="large">
+      <div style={{ marginBottom: '32px' }}>
         <InfoRow>
-          <InfoLabel>
-            <StarOutlined /> Score
-          </InfoLabel>
-          <ScoreDisplay score={scoreValue}>
-            {album.score}
-          </ScoreDisplay>
+          <InfoLabel>genre</InfoLabel>
+          <InfoValue>{album.genre || '—'}</InfoValue>
         </InfoRow>
         
         <InfoRow>
-          <InfoLabel>Genre</InfoLabel>
-          <GenreTag>{album.genre}</GenreTag>
+          <InfoLabel>score</InfoLabel>
+          <ScoreDisplay>{album.score}</ScoreDisplay>
         </InfoRow>
         
-        {album.best_new && (
-          <InfoRow>
-            <InfoLabel>Recognition</InfoLabel>
-            <BestNewBadge>
-              <TrophyOutlined />
-              Best New Album
-            </BestNewBadge>
-          </InfoRow>
-        )}
-        
-        <Divider style={{ margin: '8px 0' }} />
-        
-        {album.review_url && (
-          <ViewReviewButton
-            block
-            icon={<LinkOutlined />}
-            onClick={handleViewReview}
-          >
-            Read Full Review on Pitchfork
-          </ViewReviewButton>
-        )}
-      </Space>
+        <InfoRow>
+          <InfoLabel>best new</InfoLabel>
+          <div>
+            {album.best_new ? (
+              <BestNewTag><StarFilled /> best new</BestNewTag>
+            ) : (
+              <InfoValue>—</InfoValue>
+            )}
+          </div>
+        </InfoRow>
+      </div>
+      
+      {album.review_url && (
+        <ViewReviewButton
+          type="default"
+          icon={<LinkOutlined />}
+          block
+          onClick={() => window.open(album.review_url, '_blank')}
+        >
+          read review on pitchfork
+        </ViewReviewButton>
+      )}
     </StyledModal>
   );
 };
 
 export default AlbumDetailModal;
-

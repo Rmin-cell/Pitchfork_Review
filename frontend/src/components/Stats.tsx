@@ -1,26 +1,68 @@
 import React, { useMemo } from 'react';
 import { Card, Statistic, Row, Col } from 'antd';
-import { TrophyOutlined, StarOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { StatsProps } from '../types';
 
 const StatsContainer = styled.div`
+  margin-bottom: 80px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 40px;
+  
+  @media (max-width: 768px) {
+    padding: 0 24px;
+    margin-bottom: 60px;
+  }
+`;
+
+const SectionNumber = styled.div`
+  font-size: 6rem;
+  font-weight: 100;
+  color: var(--text-tertiary);
+  opacity: 0.2;
+  line-height: 0.8;
   margin-bottom: 40px;
+  letter-spacing: -0.05em;
+  
+  @media (max-width: 768px) {
+    font-size: 4rem;
+    margin-bottom: 24px;
+  }
 `;
 
 const StatCard = styled(Card)`
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 203, 218, 0.3);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(226, 203, 218, 0.15);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  border: 1px solid var(--card-border);
+  border-radius: 0px;
+  box-shadow: none;
+  transition: all 0.2s ease;
   
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 48px rgba(226, 203, 218, 0.25);
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(226, 203, 218, 0.5);
+    border-color: var(--text-primary);
+  }
+  
+  .ant-card-body {
+    padding: 32px;
+  }
+  
+  .ant-statistic-title {
+    color: var(--text-tertiary);
+    font-size: 0.8125rem;
+    font-weight: 300;
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+  
+  .ant-statistic-content {
+    color: var(--text-primary);
+    font-weight: 200;
+    font-size: 3rem;
+  }
+  
+  .anticon {
+    display: none;
   }
 `;
 
@@ -50,34 +92,30 @@ const Stats: React.FC<StatsProps> = ({ albums, loading }) => {
 
   return (
     <StatsContainer>
+      <SectionNumber>01</SectionNumber>
       <Row gutter={[24, 24]}>
-        <Col xs={24} sm={12} lg={8}>
+        <Col xs={24} sm={8}>
           <StatCard>
             <Statistic
-              title="High-Scoring Albums"
+              title="total albums"
               value={stats.total}
-              prefix={<StarOutlined style={{ color: '#E2CBDA' }} />}
-              valueStyle={{ color: '#2C3E50', fontSize: '2rem', fontWeight: 700 }}
             />
           </StatCard>
         </Col>
-        <Col xs={24} sm={12} lg={8}>
+        <Col xs={24} sm={8}>
           <StatCard>
             <Statistic
-              title="Best New Selections"
+              title="best new"
               value={stats.bestNew}
-              prefix={<TrophyOutlined style={{ color: '#D3F3F1' }} />}
-              valueStyle={{ color: '#2C3E50', fontSize: '2rem', fontWeight: 700 }}
             />
           </StatCard>
         </Col>
-        <Col xs={24} sm={24} lg={8}>
+        <Col xs={24} sm={8}>
           <StatCard>
             <Statistic
-              title="Average Score"
+              title="avg score"
               value={stats.averageScore}
-              prefix={<StarOutlined style={{ color: '#E9B7CE' }} />}
-              valueStyle={{ color: '#2C3E50', fontSize: '2rem', fontWeight: 700 }}
+              precision={1}
             />
           </StatCard>
         </Col>
@@ -87,4 +125,3 @@ const Stats: React.FC<StatsProps> = ({ albums, loading }) => {
 };
 
 export default Stats;
-

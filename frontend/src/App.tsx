@@ -27,37 +27,29 @@ const AppContainer = styled(Layout)`
 `;
 
 const MainContent = styled(Content)`
-  padding: 80px 40px;
-  max-width: 1600px;
+  padding: 0;
+  max-width: 100%;
   margin: 0 auto;
   width: 100%;
   background: transparent;
-  
-  @media (max-width: 1200px) {
-    padding: 60px 32px;
-  }
-  
-  @media (max-width: 768px) {
-    padding: 40px 24px;
-  }
 `;
 
 const ErrorContainer = styled.div`
   text-align: center;
-  padding: 48px 24px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 80px 40px;
+  background: transparent;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const ResultsCount = styled.div`
   text-align: center;
-  margin: 24px 0;
-  font-size: 1rem;
-  color: #5D6D7E;
-  font-weight: 500;
+  margin: 40px 0 60px;
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  font-weight: 300;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
 `;
 
 const App: React.FC = () => {
@@ -191,10 +183,10 @@ const App: React.FC = () => {
     if (error) {
       return (
         <ErrorContainer>
-          <Title level={3} style={{ color: '#f44336' }}>
-            Oops! Something went wrong
+          <Title level={3} style={{ color: 'var(--text-primary)', fontWeight: 300, fontSize: '2rem' }}>
+            something went wrong
           </Title>
-          <Paragraph>{error}</Paragraph>
+          <Paragraph style={{ color: 'var(--text-secondary)', fontWeight: 300 }}>{error}</Paragraph>
         </ErrorContainer>
       );
     }
@@ -202,8 +194,8 @@ const App: React.FC = () => {
     if (albums.length === 0) {
       return (
         <ErrorContainer>
-          <Title level={3}>No albums found</Title>
-          <Paragraph>Please try refreshing the data.</Paragraph>
+          <Title level={3} style={{ fontWeight: 300, fontSize: '2rem' }}>no albums found</Title>
+          <Paragraph style={{ color: 'var(--text-secondary)', fontWeight: 300 }}>try refreshing</Paragraph>
         </ErrorContainer>
       );
     }
@@ -211,8 +203,8 @@ const App: React.FC = () => {
     if (filteredAndSortedAlbums.length === 0) {
       return (
         <ErrorContainer>
-          <Title level={3}>No albums match your filters</Title>
-          <Paragraph>Try adjusting your search or filter criteria.</Paragraph>
+          <Title level={3} style={{ fontWeight: 300, fontSize: '2rem' }}>no results</Title>
+          <Paragraph style={{ color: 'var(--text-secondary)', fontWeight: 300 }}>adjust your filters</Paragraph>
         </ErrorContainer>
       );
     }
@@ -272,10 +264,11 @@ const App: React.FC = () => {
             <FloatButton
               icon={<ReloadOutlined />}
               onClick={handleRefresh}
-              tooltip="Refresh Albums"
+              tooltip="refresh"
               style={{
-                background: 'linear-gradient(135deg, #E2CBDA, #DED5E0)',
-                border: 'none',
+                background: 'var(--card-bg)',
+                border: '1px solid var(--card-border)',
+                borderRadius: '0px',
               }}
             />
             

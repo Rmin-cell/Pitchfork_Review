@@ -1,136 +1,132 @@
-// Bold, High-Contrast Color System
-// Inspired by: Spotify Dark, Apple Music, Neon Aesthetics
-// Features: Deep blacks, vibrant neons, strong emotional impact
+// Ultra-Minimal Portfolio-Inspired Design System
+// Deep dark backgrounds, thin typography, sophisticated spacing
 
 export const premiumLightTheme = {
-  // Clean, Bright Background
+  // Clean White Backgrounds
   bgPrimary: "#FFFFFF",
-  bgSecondary: "#F8F9FA",
-  bgAccent: "#F0F2F5",
+  bgSecondary: "#F8F8F8",
+  bgAccent: "#F0F0F0",
 
-  // Bold Vibrant Gradients
-  gradientHero:
-    "linear-gradient(135deg, #FF0080 0%, #FF8C00 50%, #40E0D0 100%)",
-  gradientAccent: "linear-gradient(135deg, #00F5FF 0%, #FF10F0 100%)",
-  gradientSubtle: "linear-gradient(135deg, #FFD93D 0%, #FF6B9D 100%)",
-  gradientDark: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  gradientGold: "linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)",
-  gradientNeon: "linear-gradient(135deg, #00F5FF 0%, #00CED1 100%)",
-  gradientPink: "linear-gradient(135deg, #FF1493 0%, #FF69B4 100%)",
+  // No Gradients
+  gradientHero: "#0A0A0A",
+  gradientAccent: "#2A2A2A",
+  gradientSubtle: "#4A4A4A",
+  gradientDark: "#0A0A0A",
+  gradientGold: "#6B6B6B",
+  gradientNeon: "#A0A0A0",
+  gradientPink: "#0A0A0A",
 
-  // Primary - Bold Purple/Pink
-  primary: "#FF0080",
-  primaryDark: "#D6006B",
-  primaryLight: "#FF4DA6",
+  // Primary - Pure Black
+  primary: "#0A0A0A",
+  primaryDark: "#000000",
+  primaryLight: "#2A2A2A",
 
-  // Neon Accent Colors
-  accent1: "#FF0080", // Neon Pink
-  accent2: "#00F5FF", // Neon Cyan
-  accent3: "#FFD93D", // Electric Yellow
-  accent4: "#39FF14", // Neon Green
-  accent5: "#C700FF", // Electric Purple
+  // Monochrome Only
+  accent1: "#0A0A0A",
+  accent2: "#2A2A2A",
+  accent3: "#4A4A4A",
+  accent4: "#6B6B6B",
+  accent5: "#A0A0A0",
 
-  // Text - Maximum Contrast
+  // Text - High Contrast
   textPrimary: "#0A0A0A",
-  textSecondary: "#2C2C2C",
-  textTertiary: "#5A5A5A",
-  textMuted: "#8A8A8A",
+  textSecondary: "#6B6B6B",
+  textTertiary: "#A0A0A0",
+  textMuted: "#D0D0D0",
   textInverse: "#FFFFFF",
 
-  // Card & Surface - Clean with subtle depth
-  cardBg: "rgba(255, 255, 255, 0.98)",
-  cardBgHover: "rgba(255, 255, 255, 1)",
-  cardBorder: "rgba(255, 0, 128, 0.15)",
-  cardBorderHover: "rgba(255, 0, 128, 0.4)",
+  // Card & Surface - Minimal
+  cardBg: "#FFFFFF",
+  cardBgHover: "#F8F8F8",
+  cardBorder: "#E8E8E8",
+  cardBorderHover: "#D0D0D0",
 
-  // Bold Shadows
-  shadowXs: "0 2px 4px rgba(0, 0, 0, 0.08)",
-  shadowSm: "0 4px 12px rgba(255, 0, 128, 0.15)",
-  shadowMd: "0 8px 24px rgba(255, 0, 128, 0.2)",
-  shadowLg: "0 16px 48px rgba(255, 0, 128, 0.25)",
-  shadowXl: "0 24px 64px rgba(255, 0, 128, 0.3)",
-  shadowNeon: "0 0 20px rgba(0, 245, 255, 0.5)",
+  // Ultra-Subtle Shadows
+  shadowXs: "0 1px 2px rgba(0, 0, 0, 0.02)",
+  shadowSm: "0 1px 2px rgba(0, 0, 0, 0.03)",
+  shadowMd: "0 2px 4px rgba(0, 0, 0, 0.04)",
+  shadowLg: "0 4px 8px rgba(0, 0, 0, 0.06)",
+  shadowXl: "0 8px 16px rgba(0, 0, 0, 0.08)",
+  shadowNeon: "0 2px 6px rgba(0, 0, 0, 0.04)",
 
   // Overlays
-  overlay: "rgba(10, 10, 10, 0.85)",
-  overlayLight: "rgba(255, 255, 255, 0.95)",
+  overlay: "rgba(10, 10, 10, 0.5)",
+  overlayLight: "rgba(255, 255, 255, 0.9)",
 
-  // Borders - Subtle but present
-  borderLight: "#E8E8E8",
-  borderMedium: "#D0D0D0",
-  borderDark: "#A8A8A8",
+  // Borders - Minimal
+  borderLight: "#F0F0F0",
+  borderMedium: "#E8E8E8",
+  borderDark: "#D0D0D0",
 
-  // Score Colors - Vibrant & Emotional
-  scorePerfect: "#39FF14",
-  scoreExcellent: "#00F5FF",
-  scoreGreat: "#FFD93D",
-  scoreGood: "#FF0080",
+  // Score Colors - Monochrome
+  scorePerfect: "#0A0A0A",
+  scoreExcellent: "#2A2A2A",
+  scoreGreat: "#4A4A4A",
+  scoreGood: "#6B6B6B",
 };
 
 export const premiumDarkTheme = {
-  // True Black with Deep Navy Accents
-  bgPrimary: "#000000",
-  bgSecondary: "#0A0A0F",
-  bgAccent: "#121218",
+  // Deep Dark Backgrounds (Portfolio Style)
+  bgPrimary: "#0A0A0A",
+  bgSecondary: "#121212",
+  bgAccent: "#1A1A1A",
 
-  // Electric Neon Gradients
-  gradientHero:
-    "linear-gradient(135deg, #FF0080 0%, #FF8C00 50%, #40E0D0 100%)",
-  gradientAccent: "linear-gradient(135deg, #00F5FF 0%, #FF10F0 100%)",
-  gradientSubtle: "linear-gradient(135deg, #C700FF 0%, #FF0080 100%)",
-  gradientDark:
-    "linear-gradient(135deg, #000000 0%, #1A1A2E 50%, #0A0A0F 100%)",
-  gradientGold: "linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)",
-  gradientNeon: "linear-gradient(135deg, #00F5FF 0%, #00CED1 100%)",
-  gradientPink: "linear-gradient(135deg, #FF1493 0%, #FF69B4 100%)",
+  // No Gradients
+  gradientHero: "#FFFFFF",
+  gradientAccent: "#E8E8E8",
+  gradientSubtle: "#D0D0D0",
+  gradientDark: "#FFFFFF",
+  gradientGold: "#A0A0A0",
+  gradientNeon: "#6B6B6B",
+  gradientPink: "#FFFFFF",
 
-  // Primary - Electric Pink
-  primary: "#FF0080",
-  primaryDark: "#D6006B",
-  primaryLight: "#FF4DA6",
+  // Primary - Pure White
+  primary: "#FFFFFF",
+  primaryDark: "#E8E8E8",
+  primaryLight: "#D0D0D0",
 
-  // Neon Accents - Maximum Impact
-  accent1: "#FF0080", // Neon Pink
-  accent2: "#00F5FF", // Neon Cyan
-  accent3: "#FFD93D", // Electric Yellow
-  accent4: "#39FF14", // Neon Green
-  accent5: "#C700FF", // Electric Purple
+  // Monochrome Only
+  accent1: "#FFFFFF",
+  accent2: "#E8E8E8",
+  accent3: "#D0D0D0",
+  accent4: "#A0A0A0",
+  accent5: "#6B6B6B",
 
-  // Text - Maximum Contrast on Black
+  // Text - Soft Contrast
   textPrimary: "#FFFFFF",
-  textSecondary: "#E8E8E8",
-  textTertiary: "#B0B0B0",
-  textMuted: "#707070",
-  textInverse: "#000000",
+  textSecondary: "#A0A0A0",
+  textTertiary: "#6B6B6B",
+  textMuted: "#4A4A4A",
+  textInverse: "#0A0A0A",
 
-  // Card & Surface - Dark with glow
-  cardBg: "rgba(18, 18, 24, 0.85)",
-  cardBgHover: "rgba(18, 18, 24, 0.98)",
-  cardBorder: "rgba(255, 0, 128, 0.3)",
-  cardBorderHover: "rgba(255, 0, 128, 0.6)",
+  // Card & Surface - Subtle Elevation
+  cardBg: "#141414",
+  cardBgHover: "#1A1A1A",
+  cardBorder: "#242424",
+  cardBorderHover: "#303030",
 
-  // Dramatic Shadows with Neon Glow
-  shadowXs: "0 2px 4px rgba(0, 0, 0, 0.5)",
-  shadowSm: "0 4px 12px rgba(0, 0, 0, 0.6)",
-  shadowMd: "0 8px 24px rgba(255, 0, 128, 0.3)",
-  shadowLg: "0 16px 48px rgba(255, 0, 128, 0.4)",
-  shadowXl: "0 24px 64px rgba(255, 0, 128, 0.5)",
-  shadowNeon: "0 0 30px rgba(0, 245, 255, 0.6)",
+  // Minimal Shadows
+  shadowXs: "0 1px 2px rgba(0, 0, 0, 0.4)",
+  shadowSm: "0 1px 2px rgba(0, 0, 0, 0.5)",
+  shadowMd: "0 2px 4px rgba(0, 0, 0, 0.6)",
+  shadowLg: "0 4px 8px rgba(0, 0, 0, 0.7)",
+  shadowXl: "0 8px 16px rgba(0, 0, 0, 0.8)",
+  shadowNeon: "0 2px 6px rgba(0, 0, 0, 0.6)",
 
   // Overlays
-  overlay: "rgba(0, 0, 0, 0.92)",
-  overlayLight: "rgba(18, 18, 24, 0.95)",
+  overlay: "rgba(0, 0, 0, 0.8)",
+  overlayLight: "rgba(20, 20, 20, 0.95)",
 
-  // Borders - Visible on dark
-  borderLight: "rgba(255, 255, 255, 0.1)",
-  borderMedium: "rgba(255, 255, 255, 0.15)",
-  borderDark: "rgba(255, 255, 255, 0.2)",
+  // Borders - Subtle
+  borderLight: "#1A1A1A",
+  borderMedium: "#242424",
+  borderDark: "#303030",
 
-  // Score Colors - Neon Glow
-  scorePerfect: "#39FF14",
-  scoreExcellent: "#00F5FF",
-  scoreGreat: "#FFD93D",
-  scoreGood: "#FF0080",
+  // Score Colors - Monochrome
+  scorePerfect: "#FFFFFF",
+  scoreExcellent: "#E8E8E8",
+  scoreGreat: "#D0D0D0",
+  scoreGood: "#A0A0A0",
 };
 
 export type PremiumTheme = typeof premiumLightTheme;
