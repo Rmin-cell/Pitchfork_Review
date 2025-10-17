@@ -29,7 +29,7 @@ const HeroTitle = styled(Title)`
   color: var(--text-primary) !important;
   margin: 0 0 24px 0 !important;
   font-size: 5rem !important;
-  font-weight: 300 !important;
+  font-weight: 500 !important;
   letter-spacing: -0.03em;
   line-height: 1.1 !important;
   
@@ -40,7 +40,7 @@ const HeroTitle = styled(Title)`
   span {
     display: block;
     color: var(--text-secondary);
-    font-weight: 300;
+    font-weight: 400;
   }
 `;
 
@@ -48,7 +48,7 @@ const HeroSubtitle = styled(Paragraph)`
   color: var(--text-secondary) !important;
   margin: 0 0 60px 0 !important;
   font-size: 1.125rem !important;
-  font-weight: 300 !important;
+  font-weight: 400 !important;
   line-height: 1.8;
   max-width: 600px;
 `;
@@ -70,7 +70,7 @@ const StatItem = styled.div`
 
 const StatNumber = styled.div`
   font-size: 3.5rem;
-  font-weight: 200;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: 8px;
   line-height: 1;
@@ -82,13 +82,13 @@ const StatLabel = styled.div`
   color: var(--text-tertiary);
   text-transform: lowercase;
   letter-spacing: 0.05em;
-  font-weight: 300;
+  font-weight: 400;
 `;
 
 const RefreshButton = styled(Button)`
   height: 48px;
   padding: 0 32px;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 0.9375rem;
   border-radius: 0px;
   border: 1px solid var(--text-primary);

@@ -1,287 +1,299 @@
-import React, { useMemo, useRef } from 'react';
-import { Typography, Button } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import React, { useMemo } from 'react';
+import { Tag } from 'antd';
+import { StarFilled, HeartOutlined, HeartFilled } from '@ant-design/icons';
 import styled from 'styled-components';
-import AlbumCard from './AlbumCard';
 import { Album } from '../types';
-
-const { Title } = Typography;
 
 interface GenreSectionsProps {
   albums: Album[];
   onAlbumClick: (album: Album) => void;
 }
 
-const SectionsContainer = styled.div`
-  margin: 60px 0;
+const Container = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  
+  @media (max-width: 768px) {
+    padding: 0 24px;
+  }
 `;
 
 const GenreSection = styled.div`
-  margin-bottom: 60px;
+  margin-bottom: 80px;
   
   &:last-child {
     margin-bottom: 0;
   }
 `;
 
-const SectionHeader = styled.div`
+const GenreHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--card-border);
+`;
+
+const GenreTitle = styled.h2`
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+`;
+
+const GenreCount = styled.span`
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  text-transform: lowercase;
+`;
+
+const AlbumRow = styled.div`
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 100px 80px 60px;
+  gap: 24px;
+  padding: 20px 0;
+  background: transparent;
+  border-bottom: 1px solid var(--card-border);
   align-items: center;
-  margin-bottom: 24px;
+  transition: all 0.2s ease;
+  cursor: pointer;
   
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
+  &:hover {
+    background: var(--card-bg-hover);
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 50px 1fr 1fr 80px 60px;
     gap: 16px;
   }
-`;
-
-const SectionTitle = styled(Title)`
-  margin: 0 !important;
-  font-family: 'Playfair Display', serif !important;
-  font-size: 2rem !important;
-  font-weight: 600 !important;
-  color: var(--text-primary) !important;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  
-  &::before {
-    content: '';
-    width: 4px;
-    height: 32px;
-    background: linear-gradient(180deg, var(--primary), var(--accent));
-    border-radius: 2px;
-  }
   
   @media (max-width: 768px) {
-    font-size: 1.5rem !important;
+    grid-template-columns: 50px 1fr 80px 50px;
+    gap: 12px;
   }
 `;
 
-const AlbumCount = styled.span`
-  color: var(--text-tertiary);
-  font-size: 1rem;
-  font-weight: 400;
-  font-family: 'Inter', sans-serif;
-`;
-
-const ScrollControls = styled.div`
-  display: flex;
-  gap: 12px;
-  
-  @media (max-width: 768px) {
-    width: 100%;
-    justify-content: flex-end;
-  }
-`;
-
-const ScrollButton = styled(Button)`
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--card-bg);
+const CoverImage = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 0px;
+  object-fit: cover;
   border: 1px solid var(--card-border);
+  
+  @media (max-width: 768px) {
+    width: 50px;
+    height: 50px;
+  }
+`;
+
+const CoverPlaceholder = styled.div`
+  width: 60px;
+  height: 60px;
+  border-radius: 0px;
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--shadow-sm);
-  
-  &:hover:not(:disabled) {
-    background: var(--card-bg-hover);
-    border-color: var(--card-border-hover);
-    transform: scale(1.1);
-    box-shadow: var(--shadow-md);
-  }
-  
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-  
-  svg {
-    color: var(--text-primary);
-  }
-`;
-
-const CarouselContainer = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const CarouselTrack = styled.div`
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  padding: 8px 4px 24px 4px;
-  
-  /* Hide scrollbar but keep functionality */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Show subtle scroll indicator on hover */
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--card-border);
-    border-radius: 2px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  &:hover::after {
-    opacity: 1;
-  }
-`;
-
-const CarouselCard = styled.div`
-  flex: 0 0 auto;
-  width: 280px;
+  color: var(--text-tertiary);
+  font-size: 1.25rem;
+  border: 1px solid var(--card-border);
   
   @media (max-width: 768px) {
-    width: 240px;
+    width: 50px;
+    height: 50px;
+    font-size: 1rem;
+  }
+`;
+
+const TextCell = styled.div<{ hideOnMobile?: boolean }>`
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  ${props => props.hideOnMobile && `
+    @media (max-width: 768px) {
+      display: none;
+    }
+  `}
+  
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+  }
+`;
+
+const SecondaryTextCell = styled(TextCell)`
+  color: var(--text-secondary);
+  font-weight: 400;
+`;
+
+const ScoreBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 0px;
+  background: transparent;
+  border: 1px solid var(--text-primary);
+  color: var(--text-primary);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  
+  @media (max-width: 768px) {
+    padding: 4px 10px;
+    font-size: 0.875rem;
+  }
+`;
+
+const BestNewTag = styled(Tag)`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 0px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  border: 1px solid var(--text-primary);
+  background: transparent;
+  color: var(--text-primary);
+  margin: 0;
+  
+  .anticon {
+    font-size: 0.625rem;
+  }
+`;
+
+const FavoriteButton = styled.button`
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: var(--text-primary);
   }
   
-  @media (max-width: 480px) {
-    width: 200px;
+  &.favorited {
+    color: var(--text-primary);
+  }
+  
+  .anticon {
+    font-size: 1.125rem;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
   }
 `;
-
-const EmptyState = styled.div`
-  text-align: center;
-  padding: 60px 24px;
-  color: var(--text-tertiary);
-  font-size: 1.1rem;
-`;
-
-const GenreIcon = styled.span`
-  font-size: 1.5rem;
-  margin-right: 8px;
-`;
-
-// Genre icons mapping
-const genreIcons: Record<string, string> = {
-  'Rock': '🎸',
-  'Pop': '🎤',
-  'Electronic': '🎹',
-  'Folk': '🪕',
-  'Country': '🤠',
-  'Metal': '🤘',
-  'Rap': '🎤',
-  'Experimental': '🧪',
-  'R&B': '🎵',
-  'Pop/R&B': '🎵',
-  'Jazz': '🎺',
-  'Classical': '🎻',
-  'Hip-Hop': '🎤',
-  'Indie': '🎸',
-  'Default': '🎶',
-};
 
 const GenreSections: React.FC<GenreSectionsProps> = ({ albums, onAlbumClick }) => {
-  const scrollRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [favorites, setFavorites] = React.useState<Set<string>>(() => {
+    const saved = localStorage.getItem('favorites');
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
 
-  // Group albums by genre
   const albumsByGenre = useMemo(() => {
-    const grouped: Record<string, Album[]> = {};
-    
-    albums.forEach(album => {
-      const genre = album.genre || 'Other';
-      if (!grouped[genre]) {
-        grouped[genre] = [];
+    const grouped = albums.reduce((acc, album) => {
+      const genre = album.genre || 'Unknown';
+      if (!acc[genre]) {
+        acc[genre] = [];
       }
-      grouped[genre].push(album);
-    });
-    
-    // Sort genres by album count (descending)
-    return Object.entries(grouped)
-      .sort(([, a], [, b]) => b.length - a.length)
-      .reduce((acc, [genre, albumList]) => {
-        acc[genre] = albumList;
-        return acc;
-      }, {} as Record<string, Album[]>);
+      acc[genre].push(album);
+      return acc;
+    }, {} as Record<string, Album[]>);
+
+    // Sort genres alphabetically
+    return Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b));
   }, [albums]);
 
-  const scroll = (genre: string, direction: 'left' | 'right') => {
-    const container = scrollRefs.current[genre];
-    if (!container) return;
+  const toggleFavorite = (e: React.MouseEvent, album: Album) => {
+    e.stopPropagation();
+    const key = `${album.title}-${album.artist}`;
+    const newFavorites = new Set(favorites);
     
-    const scrollAmount = 600;
-    const newScrollPosition = direction === 'left'
-      ? container.scrollLeft - scrollAmount
-      : container.scrollLeft + scrollAmount;
+    if (newFavorites.has(key)) {
+      newFavorites.delete(key);
+    } else {
+      newFavorites.add(key);
+    }
     
-    container.scrollTo({
-      left: newScrollPosition,
-      behavior: 'smooth',
-    });
+    setFavorites(newFavorites);
+    localStorage.setItem('favorites', JSON.stringify(Array.from(newFavorites)));
   };
 
-  if (Object.keys(albumsByGenre).length === 0) {
-    return (
-      <EmptyState>
-        No albums available to display
-      </EmptyState>
-    );
-  }
+  const isFavorite = (album: Album) => {
+    const key = `${album.title}-${album.artist}`;
+    return favorites.has(key);
+  };
 
   return (
-    <SectionsContainer>
-      {Object.entries(albumsByGenre).map(([genre, genreAlbums]) => {
-        const icon = genreIcons[genre] || genreIcons['Default'];
-        
-        return (
-          <GenreSection key={genre}>
-            <SectionHeader>
-              <SectionTitle level={2}>
-                <GenreIcon>{icon}</GenreIcon>
-                {genre}
-                <AlbumCount>({genreAlbums.length})</AlbumCount>
-              </SectionTitle>
+    <Container>
+      {albumsByGenre.map(([genre, genreAlbums]) => (
+        <GenreSection key={genre}>
+          <GenreHeader>
+            <GenreTitle>{genre}</GenreTitle>
+            <GenreCount>({genreAlbums.length} albums)</GenreCount>
+          </GenreHeader>
+          
+          {genreAlbums.map((album, index) => (
+            <AlbumRow key={index} onClick={() => onAlbumClick(album)}>
+              <div>
+                {album.image_url ? (
+                  <CoverImage src={album.image_url} alt={album.title} loading="lazy" />
+                ) : (
+                  <CoverPlaceholder>♪</CoverPlaceholder>
+                )}
+              </div>
               
-              <ScrollControls>
-                <ScrollButton
-                  icon={<LeftOutlined />}
-                  onClick={() => scroll(genre, 'left')}
-                  aria-label={`Scroll ${genre} left`}
-                />
-                <ScrollButton
-                  icon={<RightOutlined />}
-                  onClick={() => scroll(genre, 'right')}
-                  aria-label={`Scroll ${genre} right`}
-                />
-              </ScrollControls>
-            </SectionHeader>
-            
-            <CarouselContainer>
-              <CarouselTrack
-                ref={el => scrollRefs.current[genre] = el}
-              >
-                {genreAlbums.map((album, index) => (
-                  <CarouselCard key={`${genre}-${album.title}-${index}`}>
-                    <AlbumCard album={album} onClick={onAlbumClick} />
-                  </CarouselCard>
-                ))}
-              </CarouselTrack>
-            </CarouselContainer>
-          </GenreSection>
-        );
-      })}
-    </SectionsContainer>
+              <TextCell>{album.title}</TextCell>
+              
+              <SecondaryTextCell hideOnMobile>{album.artist}</SecondaryTextCell>
+              
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {album.best_new ? (
+                  <BestNewTag>
+                    <StarFilled /> best
+                  </BestNewTag>
+                ) : (
+                  <span style={{ color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>—</span>
+                )}
+              </div>
+              
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ScoreBadge>{album.score}</ScoreBadge>
+              </div>
+              
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <FavoriteButton
+                  onClick={(e) => toggleFavorite(e, album)}
+                  className={isFavorite(album) ? 'favorited' : ''}
+                >
+                  {isFavorite(album) ? <HeartFilled /> : <HeartOutlined />}
+                </FavoriteButton>
+              </div>
+            </AlbumRow>
+          ))}
+        </GenreSection>
+      ))}
+    </Container>
   );
 };
 
 export default GenreSections;
-

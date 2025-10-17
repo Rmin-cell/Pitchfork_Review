@@ -18,9 +18,9 @@ const StatsContainer = styled.div`
 
 const SectionNumber = styled.div`
   font-size: 6rem;
-  font-weight: 100;
+  font-weight: 300;
   color: var(--text-tertiary);
-  opacity: 0.2;
+  opacity: 0.3;
   line-height: 0.8;
   margin-bottom: 40px;
   letter-spacing: -0.05em;
@@ -49,7 +49,7 @@ const StatCard = styled(Card)`
   .ant-statistic-title {
     color: var(--text-tertiary);
     font-size: 0.8125rem;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: lowercase;
     letter-spacing: 0.05em;
     margin-bottom: 16px;
@@ -57,7 +57,7 @@ const StatCard = styled(Card)`
   
   .ant-statistic-content {
     color: var(--text-primary);
-    font-weight: 200;
+    font-weight: 500;
     font-size: 3rem;
   }
   

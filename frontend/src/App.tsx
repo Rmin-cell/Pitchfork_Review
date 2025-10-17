@@ -3,15 +3,14 @@ import { Layout, Typography, message, FloatButton } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { ThemeProvider } from './contexts/ThemeContext';
+import LandingHero from './components/LandingHero';
 import Header from './components/Header';
 import Stats from './components/Stats';
 import SearchBar from './components/SearchBar';
 import AlbumDetailModal from './components/AlbumDetailModal';
 import AlbumSkeleton from './components/AlbumSkeleton';
 import DarkModeToggle from './components/DarkModeToggle';
-import FeaturedAlbumHero from './components/FeaturedAlbumHero';
 import GenreSections from './components/GenreSections';
-import MagazineListView from './components/MagazineListView';
 import AlbumListView from './components/AlbumListView';
 import ViewToggle from './components/ViewToggle';
 import SurpriseMeButton from './components/SurpriseMeButton';
@@ -58,7 +57,9 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<'list' | 'genre' | 'magazine'>('list');
+  const [viewMode, setViewMode] = useState<'list' | 'genre'>('list');
+  
+  const contentRef = React.useRef<HTMLDivElement>(null);
   
   const [filters, setFilters] = useState<AlbumFilters>({
     searchQuery: '',
@@ -102,6 +103,10 @@ const App: React.FC = () => {
   const handleModalClose = useCallback(() => {
     setModalVisible(false);
     setSelectedAlbum(null);
+  }, []);
+
+  const handleScrollToContent = useCallback(() => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   const handleFiltersChange = useCallback((newFilters: AlbumFilters) => {
@@ -175,6 +180,23 @@ const App: React.FC = () => {
     return result;
   }, [albums, filters]);
 
+  // Calculate landing hero stats
+  const heroStats = useMemo(() => {
+    const bestNewCount = albums.filter(album => album.best_new).length;
+    const scores = albums
+      .map(album => parseFloat(album.score.replace('+', '')))
+      .filter(score => !isNaN(score));
+    const avgScore = scores.length > 0
+      ? (scores.reduce((sum, score) => sum + score, 0) / scores.length).toFixed(1)
+      : '0.0';
+    
+    return {
+      total: albums.length,
+      bestNew: bestNewCount,
+      avgScore,
+    };
+  }, [albums]);
+
   const renderContent = () => {
     if (loading) {
       return <AlbumSkeleton count={12} />;
@@ -213,10 +235,6 @@ const App: React.FC = () => {
     if (viewMode === 'genre') {
       return <GenreSections albums={filteredAndSortedAlbums} onAlbumClick={handleAlbumClick} />;
     }
-    
-    if (viewMode === 'magazine') {
-      return <MagazineListView albums={filteredAndSortedAlbums} onAlbumClick={handleAlbumClick} />;
-    }
 
     return (
       <>
@@ -232,17 +250,25 @@ const App: React.FC = () => {
     <ThemeProvider>
       <AppContainer>
         <DarkModeToggle />
-        <Header onRefresh={handleRefresh} loading={loading} albums={albums} />
+        
+        {/* Landing Hero - Full Screen */}
+        <LandingHero 
+          totalAlbums={heroStats.total}
+          bestNewCount={heroStats.bestNew}
+          avgScore={heroStats.avgScore}
+          onScrollClick={handleScrollToContent}
+        />
+        
+        {/* Main Content - Below Landing */}
+        <div ref={contentRef}>
+          <Header onRefresh={handleRefresh} loading={loading} albums={albums} />
+        </div>
+        
         <MainContent>
           <Stats albums={albums} loading={loading} />
           
           {!loading && albums.length > 0 && (
             <>
-              <FeaturedAlbumHero 
-                albums={albums} 
-                onViewDetails={handleAlbumClick} 
-              />
-              
               <SearchBar 
                 albums={albums} 
                 filters={filters} 

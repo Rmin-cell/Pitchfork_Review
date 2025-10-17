@@ -1,11 +1,11 @@
 import React from 'react';
 import { Segmented } from 'antd';
-import { UnorderedListOutlined, AppstoreOutlined, ReadOutlined } from '@ant-design/icons';
+import { UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 interface ViewToggleProps {
-  value: 'list' | 'genre' | 'magazine';
-  onChange: (value: 'list' | 'genre' | 'magazine') => void;
+  value: 'list' | 'genre';
+  onChange: (value: 'list' | 'genre') => void;
 }
 
 const ToggleContainer = styled.div`
@@ -50,7 +50,7 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => {
     <ToggleContainer>
       <StyledSegmented
         value={value}
-        onChange={(val) => onChange(val as 'list' | 'genre' | 'magazine')}
+        onChange={(val) => onChange(val as 'list' | 'genre')}
         options={[
           {
             label: 'list',
@@ -58,14 +58,9 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => {
             icon: <UnorderedListOutlined />,
           },
           {
-            label: 'genre',
+            label: 'by genre',
             value: 'genre',
             icon: <AppstoreOutlined />,
-          },
-          {
-            label: 'magazine',
-            value: 'magazine',
-            icon: <ReadOutlined />,
           },
         ]}
       />
