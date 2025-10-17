@@ -257,6 +257,7 @@ const App: React.FC = () => {
           bestNewCount={heroStats.bestNew}
           avgScore={heroStats.avgScore}
           onScrollClick={handleScrollToContent}
+          albums={albums}
         />
         
         {/* Main Content - Below Landing */}
